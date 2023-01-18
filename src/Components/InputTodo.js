@@ -1,42 +1,47 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable react/destructuring-assignment */
-import React, { Component } from 'react';
+import React, { useState } from 'react';
+import { FaPlusCircle } from 'react-icons/fa';
 
-// eslint-disable-next-line react/prefer-stateless-function
-class InputTodo extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      title: '',
-    };
-  }
+const InputTodo = (props) => {
+  const [inputText, setInputText] = useState({
+    title: '',
+  });
 
-  onChange = (e) => {
-    this.setState({
+  const onChange = (e) => {
+    setInputText({
+      ...inputText,
       [e.target.name]: e.target.value,
     });
-  }
+  };
 
-  handleSubmit = (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
-    if (this.state.title.trim()) {
-      this.props.addTodoProps(this.state.title);
-      this.setState({
+    if (inputText.title.trim()) {
+      props.addTodoProps(inputText.title);
+      setInputText({
         title: '',
       });
-    } else {
-      alert('Please write item');
     }
-  }
+  };
 
-  render() {
-    return (
-      <form onSubmit={this.handleSubmit} className="form-container">
-        <input className="input-text" type="text" name="title" placeholder="Add Todo.." onChange={this.onChange} value={this.state.title} />
-        <button className="input-submit" type="submit">Submit</button>
-      </form>
-    );
-  }
-}
+  return (
+    <form onSubmit={handleSubmit} className="form-container">
+      <input
+        type="text"
+        className="input-text"
+        placeholder="Add todo..."
+        value={inputText.title}
+        name="title"
+        onChange={onChange}
+      />
+      <button type="submit" className="input-submit">
+        {' '}
+        <FaPlusCircle />
+        {' '}
+      </button>
+    </form>
+  );
+};
 
 export default InputTodo;
